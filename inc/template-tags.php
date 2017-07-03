@@ -123,9 +123,13 @@ function _s_post_thumbnail() {
 	<?php else : ?>
 
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
-		<?php the_post_thumbnail( 'post-thumbnail', array( 'alt' => the_title_attribute( 'echo=0' ) ) ); ?>
+		<?php
+			the_post_thumbnail( 'post-thumbnail', array(
+				'alt' => the_title_attribute( 'echo=0' )
+			) );
+		?>
 	</a>
 
-	<?php endif; // End is_singular()
+	<?php endif; // End is_singular().
 }
 endif;
