@@ -1,0 +1,27 @@
+{
+  "name": "underscore_s",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/Automattic/_s.svg?branch=master)](https://travis-ci.org/Automattic/_s)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tameroski/_s.git"
+  },
+  "author": "tameroski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tameroski/_s/issues"
+  },
+  "homepage": "https://github.com/tameroski/_s#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-sass": "^3.1.0"
+  }
+}
