@@ -1,12 +1,29 @@
 'use strict';
 
+var paths = {
+	source:{
+		scripts: [
+
+		],
+		styles: [
+			'./sass/**/*.scss',
+		]
+	},
+	dest:{
+		scripts: [
+
+		],
+		styles: [
+			'./style.css',
+		]
+	}
+}
+
 var gulp = require('gulp'),
 	$ = require( "gulp-load-plugins" )();
 
 gulp.task('style_clean', function () {
-    require('del').sync([
-    	'./style.css'
-    ]);
+    require('del').sync(paths.dest.styles);
 });
 
 gulp.task('style_main', [], function(){
@@ -25,7 +42,11 @@ gulp.task('style', [ 'style_clean' ], function(){
 });
 
 gulp.task('init', [], function(){
-	
+
+});
+
+gulp.task('watch', [], function(){
+	gulp.watch(paths.source.styles, ['default']);
 });
 
 gulp.task('default', [ 'style' ]);
