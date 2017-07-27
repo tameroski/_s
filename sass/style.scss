@@ -42,6 +42,9 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.io/normalize.css/
 	## Captions
 	## Galleries
 --------------------------------------------------------------*/
+@import "bourbon";
+@import "neat";
+
 @import "variables-site/variables-site";
 @import "mixins/mixins-master";
 
@@ -88,7 +91,7 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.io/normalize.css/
 /*--------------------------------------------------------------
 # Layout
 --------------------------------------------------------------*/
-@import "layout/content-sidebar";
+@import "layout/layout";
 
 /*--------------------------------------------------------------
 # Widgets
