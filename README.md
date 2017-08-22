@@ -24,11 +24,11 @@ Getting Started
 
 then
 
-`gulp init --name THEME_NAME`
+`gulp init --name 'THEME NAME'`
 
 then
 
-`gulp`
+`gulp` or `gulp watch`
 
 Then, update the stylesheet header in `style.scss` and the links in `footer.php` with your own information. Next, update or delete this readme.
 

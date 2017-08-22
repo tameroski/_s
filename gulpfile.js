@@ -6,7 +6,13 @@ var gulp = require('gulp'),
 var paths = {
 	source:{
 		scripts: [
-
+			// Underscores
+			'!./js/customizer.js',
+			'./js/navigation.js',
+            './js/skip-link-focus-fix.js',
+            // Ours
+            './js/libs/*.js',
+            './js/**/*.js',
 		],
 		styles: [
 			'./sass/**/*.scss',
@@ -17,7 +23,7 @@ var paths = {
 	},
 	dest:{
 		scripts: [
-
+			'./app.min.js'
 		],
 		styles: [
 			'./style.css',
@@ -48,6 +54,22 @@ gulp.task('style', [ 'style_clean' ], function(){
 	gulp.start('style_main');
 });
 
+/* SCRIPTS */
+gulp.task('scripts_clean', function () {
+    require('del').sync(paths.dest.scripts);
+});
+
+gulp.task('scripts_main', [], function(){
+	return gulp.src(paths.source.scripts)
+		.pipe($.concat('app.min.js'))
+		.pipe($.uglify())
+		.pipe(gulp.dest('./'));
+});
+
+gulp.task('scripts', [ 'scripts_clean' ], function(){
+	gulp.start('scripts_main');
+});
+
 /* TASKS */
 gulp.task('init', function(){
 	var argv = require('yargs').argv;
@@ -60,7 +82,6 @@ gulp.task('init', function(){
 	gulp.src(paths.source.php, {base: './'})
 		.pipe($.replace("'_s'", "'" + slugify(argv.name) + "'" ))
 		.pipe($.replace("_s_", slugify(argv.name) + "_"))
-		.pipe($.replace("Text Domain: _s", "Text Domain: " + slugify(argv.name) ))
 		.pipe($.replace(" _s", " " + slugify(argv.name) ))
 		.pipe($.replace("_s-", slugify(argv.name) + "-"))
 		.pipe(gulp.dest('./'));
@@ -77,7 +98,7 @@ gulp.task('watch', [], function(){
 	gulp.watch(paths.source.styles, ['default']);
 });
 
-gulp.task('default', [ 'style' ]);
+gulp.task('default', [ 'style', 'scripts' ]);
 
 /* UTILS */
 function slugify(text){
@@ -87,9 +108,4 @@ function slugify(text){
     .replace(/\-\-+/g, '-')
     .replace(/^-+/, '')
     .replace(/-+$/, '');
-}
-
-function handleError (err) {
-  console.log(err.toString())
-  process.exit(-1)
 }
