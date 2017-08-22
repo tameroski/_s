@@ -1,7 +1,5 @@
 'use strict';
 
-var slug = "_s";
-
 var gulp = require('gulp'),
 	$ = require( "gulp-load-plugins" )();
 
@@ -12,6 +10,9 @@ var paths = {
 		],
 		styles: [
 			'./sass/**/*.scss',
+		],
+		php: [
+			'./**/*.php'
 		]
 	},
 	dest:{
@@ -20,6 +21,9 @@ var paths = {
 		],
 		styles: [
 			'./style.css',
+		],
+		php: [
+			'./**/*.php'
 		]
 	}
 }
@@ -45,18 +49,28 @@ gulp.task('style', [ 'style_clean' ], function(){
 });
 
 /* TASKS */
-/* Not working very well at the moment. Maybe let's try https://www.npmjs.com/package/gulp-exec */
-gulp.task('init', [], function(){
+gulp.task('init', function(){
 	var argv = require('yargs').argv;
 
-	return gulp.src(paths.source.styles, {read: false}) // gulp.src('') is an anti pattern
-		.pipe($.run("find . -type f -name '*.php' -print0 | xargs -0 sed -i '' \"s#'_s'#'" + slugify(argv.name || slug) + "'#g\"").exec())
-		.pipe($.run("find . -type f -name '*.php' -print0 | xargs -0 sed -i '' 's/_s_/" + slugify(argv.name || slug) + "_/g'").exec())
-		.pipe($.run("find . -type f -name '*.scss' -print0 | xargs -0 sed -i '' 's/Text Domain: _s/Text Domain: " + slugify(argv.name || slug) + "/g'").exec())
-		.pipe($.run("find . -type f -name '*.php' -print0 | xargs -0 sed -i '' 's/ _s/ " + slugify(argv.name || slug) + "/g'").exec())
-		.pipe($.run("find . -type f -name '*.php' -print0 | xargs -0 sed -i '' 's/_s-/" + slugify(argv.name || slug) + "-/g'").exec())
-		.pipe($.run("find . -type f -name '*.scss' -print0 | xargs -0 sed -i '' 's/_s-/" + slugify(argv.name || slug) + "-/g'").exec())
-    	.on('error', handleError)
+	if (typeof(argv.name) == 'undefined' || argv.name === ''){
+		console.log('Error : name cannot be empty');
+  		process.exit(-1)
+	}
+
+	gulp.src(paths.source.php, {base: './'})
+		.pipe($.replace("'_s'", "'" + slugify(argv.name) + "'" ))
+		.pipe($.replace("_s_", slugify(argv.name) + "_"))
+		.pipe($.replace("Text Domain: _s", "Text Domain: " + slugify(argv.name) ))
+		.pipe($.replace(" _s", " " + slugify(argv.name) ))
+		.pipe($.replace("_s-", slugify(argv.name) + "-"))
+		.pipe(gulp.dest('./'));
+
+	gulp.src(paths.source.styles, {base: './'})
+		.pipe($.replace("Theme Name: _s", "Theme Name: " + argv.name ))
+		.pipe($.replace("Text Domain: _s", "Text Domain: " + slugify(argv.name) ))
+		.pipe($.replace("_s-", slugify(argv.name) + "-"))
+		.pipe(gulp.dest('./'));
+
 });
 
 gulp.task('watch', [], function(){
