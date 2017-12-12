@@ -47,6 +47,7 @@ gulp.task('style_main', [], function(){
 		.pipe($.cleanCss({
 			compatibility: 'ie10'
 		}))
+		.pipe($.autoprefixer({ browsers:['last 2 versions'] }))
 		.pipe(gulp.dest('./'))
 });
 
